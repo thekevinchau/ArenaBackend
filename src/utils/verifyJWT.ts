@@ -1,9 +1,15 @@
 import {Request, Response, NextFunction} from "express";
 import * as jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
+import { ObjectId } from "mongoose";
 dotenv.config();
 
 const JWT_SECRET: string = String(process.env.JWT_SECRET);
+interface JwtPayload {
+    userID: ObjectId,
+    userRole: string,
+    teamName: string
+}
 
 /*
 We're going to grab the JWT that was passed into the request headers from the client side. We're going to verify that token against the token we have
@@ -20,7 +26,7 @@ export const verifyJWT = async(req: Request, res: Response, next: NextFunction):
         return res.status(403).json({message: "Token not provided!"});
     }
 
-    jwt.verify(token, JWT_SECRET);
-    console.log(token);
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    req.user = { userID: decoded.userID, userRole: decoded.userRole, teamName: decoded.teamName }
     next();
 }
