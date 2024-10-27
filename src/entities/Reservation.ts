@@ -1,5 +1,4 @@
-import {Schema, model} from 'mongoose';
-
+import { Schema, model, ObjectId } from "mongoose";
 
 /*
 
@@ -13,25 +12,24 @@ Examples can be found in the documentation for mongoose here: https://mongoosejs
 
 */
 
-
-interface IReservation {
-    team_name: string,
-    team_tier: string,
-    time_booked: Date;
-    num_computers: number,
-    approved: boolean
+export interface IReservation {
+  owner: Schema.Types.ObjectId;
+  team_name: string;
+  day: string,
+  start_time: Date;
+  end_time: Date;
+  approved: boolean;
 }
 
+export const ReservationSchema = new Schema<IReservation>({
+  owner: { type: Schema.Types.ObjectId, required: true },
+  team_name: { type: String, required: true },
+  day: { type: String, required: true},
+  start_time: { type: Date, required: true },
+  end_time: { type: Date, required: true },
+  approved: { type: Boolean, default: false },
+});
 
-const ReservationSchema = new Schema<IReservation>({
-    team_name: { type: String, required: true},
-    team_tier: { type: String, required: true},
-    time_booked: { type: Date, required: true},
-    num_computers: { type: Number, required: true},
-    approved: {type: Boolean}
-
-})
-
-const Reservation = model<IReservation>('Reservation', ReservationSchema);
+const Reservation = model<IReservation>("Reservation", ReservationSchema);
 
 export default Reservation;

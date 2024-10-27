@@ -14,6 +14,7 @@ Examples can be found in the documentation for mongoose here: https://mongoosejs
 interface IUser {
     username: string,
     password: string,
+    team_name: string,
     role: string
 }
 
@@ -21,6 +22,7 @@ interface IUser {
 const UserSchema = new Schema<IUser>({
     username: { type: String, required: true},
     password: { type: String, required: true},
+    team_name: { type: String, required: true},
     role: { type: String, required: true}
 })
 
