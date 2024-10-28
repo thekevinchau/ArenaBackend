@@ -28,7 +28,7 @@ authRouter.post('/', async (req: Request, res: Response) => {
         
         The user inside the request object will then have access to all of these fields
         */
-        const token = jwt.sign({userID: user._id, userRole: user.role, teamName: user.team_name}, JWT_SECRET, {expiresIn: '1800s'});
+        const token = jwt.sign({userID: user._id, isAdmin: user.admin, teamName: user.team_name}, JWT_SECRET, {expiresIn: '36000s'});
         return res.status(200).json({token: token});
 
 

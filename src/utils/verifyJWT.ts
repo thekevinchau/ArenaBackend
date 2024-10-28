@@ -7,7 +7,7 @@ dotenv.config();
 const JWT_SECRET: string = String(process.env.JWT_SECRET);
 interface JwtPayload {
     userID: ObjectId,
-    userRole: string,
+    isAdmin: boolean,
     teamName: string
 }
 
@@ -27,6 +27,6 @@ export const verifyJWT = async(req: Request, res: Response, next: NextFunction):
     }
 
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
-    req.user = { userID: decoded.userID, userRole: decoded.userRole, teamName: decoded.teamName }
+    req.user = { userID: decoded.userID, isAdmin: decoded.isAdmin, teamName: decoded.teamName }
     next();
 }

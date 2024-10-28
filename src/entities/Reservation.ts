@@ -17,7 +17,8 @@ export interface IReservation {
   team_name: string;
   day: string,
   start_time: Date;
-  end_time: Date;
+  end_time: Date,
+  reason: string,
   approved: boolean;
 }
 
@@ -27,6 +28,7 @@ export const ReservationSchema = new Schema<IReservation>({
   day: { type: String, required: true},
   start_time: { type: Date, required: true },
   end_time: { type: Date, required: true },
+  reason: { type: String, required: true},
   approved: { type: Boolean, default: false },
 });
 
