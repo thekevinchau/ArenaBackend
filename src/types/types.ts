@@ -5,7 +5,7 @@ declare global {
         interface Request {
             user?: {
                 userID: ObjectId,
-                userRole: string,
+                isAdmin: boolean,
                 teamName: string
             }; // Make it optional if it may not always be present
         }

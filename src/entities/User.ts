@@ -15,7 +15,7 @@ interface IUser {
     username: string,
     password: string,
     team_name: string,
-    role: string
+    admin: boolean
 }
 
 
@@ -23,7 +23,7 @@ const UserSchema = new Schema<IUser>({
     username: { type: String, required: true},
     password: { type: String, required: true},
     team_name: { type: String, required: true},
-    role: { type: String, required: true}
+    admin: { type: Boolean, required: true}
 })
 
 const User = model('User', UserSchema);
