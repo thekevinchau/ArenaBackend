@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import Reservation from "../entities/Reservation";
 import { ObjectId } from "mongoose";
-interface Reservation {
-  num_pcs: number;
+
+
+interface Reservation {  num_pcs: number;
   start: Date;
   reason: Date;
   end: string;
@@ -14,6 +15,32 @@ interface TeamReservations {
     [day: string]: Reservation;
   };
 }
+
+//get reservations by team
+export const getReservations = async(req: Request, res: Response) => {
+  const query: string = req.query.team_name as string; //the team name in the URL will contain an underscore in the URL so we should replace the _ with aspace
+  const parsedQuery = query.replace('_', ' ');
+
+
+  if (!query){
+    return res.status(404).json({message: 'Team does not exist!'});
+  }
+
+  try{
+    const teamReservations = await Reservation.find({team_name: parsedQuery})
+    if (teamReservations.length === 0){
+      return res.status(404).json({message: 'There are no current reservations for this team.'});
+    }
+    else{
+      return res.status(200).json(teamReservations)
+    }
+  }
+  catch(err){
+    return res.status(500).json()
+  }
+}
+
+
 export const createReservation = async (
   req: Request,
   res: Response
@@ -69,7 +96,7 @@ export const editReservation = async (
   }
 
   if (Object.keys(req.body).length === 0) {
-    return res.status(400).json({ message: "No changes were made!" });
+    return res.status(204).json({ message: "No changes were made!" });
   }
   const { reservationID } = req.body || null;
   const day: string = req.body.day || null;
